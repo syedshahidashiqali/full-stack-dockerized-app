@@ -1,8 +1,12 @@
+import React from "react";
+import Navbar from "./Components/Navbar";
+import Router from "./routes/Router";
 
 function App() {
   return (
-    <div className="mainRoot">
-      Hello
+    <div className="mainContainer">
+      <Navbar />
+      <Router />
     </div>
   );
 }
