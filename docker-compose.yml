@@ -1,0 +1,50 @@
+version: "3"
+services:
+  frontend:
+    image: linkedin-assessment-client
+    build: ./client/
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    networks:
+      - fullstack-app
+    # Hot Reloading Start
+    volumes:
+      - ./client/:/usr/src/app
+      - /usr/src/app/node_modules # ignore node_modules
+    # Hot Reloading End
+  backend:
+    image: linkedin-assessment-api-server
+    build: ./server/
+    ports:
+      - "5000:5000"
+    networks:
+      - fullstack-app
+        # Hot Reloading Start
+    volumes:
+      - ./server/:/usr/src/app
+      - /usr/src/app/node_modules # ignore node_modules
+    # Hot Reloading End
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    networks:
+      - fullstack-app
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+networks:
+  fullstack-app:
+    driver: bridge
+volumes:
+  mysql-data:
+    driver: local
