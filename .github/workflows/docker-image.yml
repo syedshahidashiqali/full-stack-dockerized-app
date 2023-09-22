@@ -1,0 +1,30 @@
+name: Docker CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker images
+      run: |
+        docker build -t linkedin-assessment-server-image:$(date +%s) ./server
+        docker build -t linkedin-assessment-client-image:$(date +%s) ./client
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        docker push linkedin-assessment-server-image
+        docker push linkedin-assessment-client-image
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to Docker Compose
+      run: |
+        docker-compose -f docker-compose.yml up -d
