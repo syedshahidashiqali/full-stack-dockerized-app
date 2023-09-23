@@ -16,7 +16,7 @@ jobs:
     - name: Build and push Docker images
       run: |
         docker build -t linkedin-assessment-api-server ./server
-        docker build -t linkedin-assessment-api-server ./client
+        docker build -t linkedin-assessment-client ./client
         echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
         docker push linkedin-assessment-api-server
         docker push linkedin-assessment-client
@@ -27,4 +27,4 @@ jobs:
     steps:
     - name: Deploy to Docker Compose
       run: |
-        docker-compose -f ../docker-compose.yml up -d
+        docker-compose -f docker-compose.yml up -d
