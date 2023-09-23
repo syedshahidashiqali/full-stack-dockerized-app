@@ -27,6 +27,5 @@ jobs:
     steps:
     - name: Deploy to Docker Compose
       run: |
-        cd ..
         ls
         docker-compose -f docker-compose.yml up -d
