@@ -15,12 +15,10 @@ jobs:
 
     - name: Build and push Docker images
       run: |
-        docker build -t linkedin-assessment-server-image:$(date +%s) ./server
-        docker build -t linkedin-assessment-client-image:$(date +%s) ./client
+        docker build -t linkedin-assessment-api-server ./server
+        docker build -t linkedin-assessment-api-server ./client
         echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-        # docker push linkedin-assessment-server-image$(date +%s)
-        # docker push linkedin-assessment-client-image$(date +%s)
-        docker pushlinkedin-assessment-api-server
+        docker push linkedin-assessment-api-server
         docker push linkedin-assessment-client
 
   deploy:
@@ -29,5 +27,4 @@ jobs:
     steps:
     - name: Deploy to Docker Compose
       run: |
-        # docker-compose -f docker-compose.yml up -d
         docker-compose up -d
