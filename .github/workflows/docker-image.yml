@@ -25,7 +25,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Debug
+      run: |
+        pwd
+        ls -l
     - name: Deploy to Docker Compose
       run: |
-        ls
-        docker-compose up -d
+        docker-compose -f docker-compose.yml up -d
